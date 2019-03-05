@@ -1,0 +1,21 @@
+function defer_parsing_of_js($url)
+{
+    $files = array('jquery.js');
+    //if don't want to apply on backend(wp-admin)
+    if (!is_admin()) {
+        if (false === strpos($url, '.js')) {
+            return $url;
+        }
+
+        foreach ($files as $file) {
+            if (strpos($url, $file)) {
+                return $url;
+            }
+        }
+    } else {
+        return $url;
+    }
+    return "$url' async='async"; //you can change "async" to "defer"
+
+}
+add_filter('clean_url', 'defer_parsing_of_js', 11, 1);
